@@ -8,7 +8,7 @@ class Usuario
   private $idusuario;
   private $deslogin;
   private $dessenha;
-  private $dtcastro;
+  private $dtcadastro;
 
   public function setIdusuario($idusuario)
   {
@@ -40,14 +40,14 @@ class Usuario
     return $this->dessenha;
   }
 
-  public function setDtcastro($dtcastro)
+  public function setDtcadastro($dtcadastro)
   {
-    $this->dtcastro = $dtcastro;
+    $this->dtcadastro = $dtcadastro;
   }
 
-  public function getDtcastro()
+  public function getDtcadastro()
   {
-    return $this->dtcastro;
+    return $this->dtcadastro;
   }
 
   public function loadById($id)
@@ -59,13 +59,7 @@ class Usuario
     ));
 
     if(count($result) > 0){
-      $row = $result[0];
-
-      $this->setIdusuario($row['idusuario']);
-      $this->setDeslogin($row['deslogin']);
-      $this->setDessenha($row['dessenha']);
-      $this->setDtcastro(new DateTime($row['dtcadastro']));
-
+      $this->setData($result[0]);
     }
   }
 
@@ -95,16 +89,42 @@ class Usuario
     ));
 
     if(count($result) > 0){
-      $row = $result[0];
 
-      $this->setIdusuario($row['idusuario']);
-      $this->setDeslogin($row['deslogin']);
-      $this->setDessenha($row['dessenha']);
-      $this->setDtcastro(new DateTime($row['dtcadastro']));
+      $this->setData($result[0]);
 
     }else {
       throw new \Exception("Login e/ou senha inválidos!");
 
+    }
+  }
+
+  public function setData($data)
+  {
+    $this->setIdusuario($data['idusuario']);
+    $this->setDeslogin($data['deslogin']);
+    $this->setDessenha($data['dessenha']);
+    $this->setDtcadastro(new DateTime($data['dtcadastro']));
+  }
+
+  public function __construct($deslogin = "", $dessenha = "")
+  {
+    $this->setDeslogin($deslogin);
+    $this->setDessenha($dessenha);
+  }
+
+  public function insert()
+  {
+    $sql = new Sql();
+
+    $result = $sql->select("CALL sp_usuarios_insert(:DESLOGIN, :DESSENHA);", array(
+      ':DESLOGIN' => $this->getDeslogin(),
+      ':DESSENHA' => $this->getDessenha()
+    ));
+
+    // var_dump($result);
+
+    if(count($result) > 0){
+      $this->setData($result[0]);
     }
   }
 
@@ -114,7 +134,7 @@ class Usuario
       "idusuario"=>$this->getIdusuario(),
       "deslogin"=>$this->getDeslogin(),
       "dessenha"=>$this->getDessenha(),
-      "dtcastro"=>$this->getDtcastro()->format("d/m/Y H:s")
+      "dtcadastro"=>$this->getDtcadastro()->format("d/m/Y H:s")
     ));
   }
 
