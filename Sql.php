@@ -7,10 +7,9 @@ class Sql extends PDO
 {
   private $conn;
 
-
-  function __construct()
+  public function __construct()
   {
-    $this->conn = new PDO("mysql:host=localhost; dbname=dbphp7", "root", "");
+    $this->conn = new PDO("mysql:host=localhost;dbname=dbphp7", "root", "");
   }
 
   private function setParams($statment, $parameters = array())
