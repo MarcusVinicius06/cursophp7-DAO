@@ -128,6 +128,20 @@ class Usuario
     }
   }
 
+  public function update($deslogin, $dessenha)
+  {
+    $this->setDeslogin($deslogin);
+    $this->setDessenha($dessenha);
+
+    $sql = new Sql();
+
+    $sql->query("UPDATE tb_usuarios SET deslogin = :DESLOGIN, dessenha = :DESSENHA WHERE idusuario = :ID", array(
+      ":DESLOGIN" => $this->getDeslogin(),
+      ":DESSENHA" => $this->getDessenha(),
+      ":ID" => $this->getIdusuario()      
+    ));
+  }
+
   public function __toString()
   {
     return json_encode(array(

@@ -23,9 +23,18 @@ require_once("config.php");
 // $root->login("user2", "123");
 //
 // echo $root;
+// logando com usuario e senha
 
-$aluno = new Usuario("aluno1", "321");
+// $aluno = new Usuario("aluno1", "321");
+//
+// $aluno->insert();
+//
+// echo $aluno;
 
-$aluno->insert();
+$usuario = new Usuario();
 
-echo $aluno;
+$usuario->loadById(8);
+
+$usuario->update("professor", "123456789");
+
+echo $usuario;
