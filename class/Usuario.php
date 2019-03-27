@@ -140,6 +140,7 @@ class Usuario
       ":DESSENHA" => $this->getDessenha(),
       ":ID" => $this->getIdusuario()
     ));
+    
   }
 
   public function delete()
